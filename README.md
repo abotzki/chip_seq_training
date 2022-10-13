@@ -9,6 +9,7 @@ A small guide for this course :
   * 👀 : unscroll a help note if you're stuck
   * ❓ : quiz time!
   * 🪐 : this is a how-to referring to Galaxy
+  * 🪩 : feeling on fire? try this out
 
 ## 📍 **1. A brief note on ChIP-seq**
 
@@ -18,7 +19,7 @@ ChIP-seq stands for **Ch**romatin **I**mmuno **P**recipitation followed by **seq
 
 Today, we will work on the Galaxy platform. It's simple, free and open-source.
 
-## 📍 **3. Let's start the analysis : downloading the data**
+## 📍 **3. Let's start the analysis : loading the raw data**
 
 ### 🔸 **3.a Find the identifier**
 
@@ -88,7 +89,7 @@ We will group both sample into a **Dataset Collection**. Working on a collection
 
 
 
-## 📍 4. Quality Checking
+## 📍 **4. Sweep up the dust : cleaning raw data**
 
 We need to assess the quality of the sequencing reads. We need to know the confidence in the sequence call and the potential presence of contaminants (index or other organism).
 
@@ -112,9 +113,7 @@ FastQC in the most common tool used to get an overview of a fastq file's quality
   </details>
 <br>
 
-## 📍 **4. Sweep up the dust : cleaning raw data**
-
-### 🔸 **4.a Trimming contaminants**
+### 🔸 **4.b Trimming contaminants**
 
 We have seen in the previous chapter that **29%** of our FNR raw data correspond an Illumina Adapter sequence.
 
@@ -122,9 +121,67 @@ We have seen in the previous chapter that **29%** of our FNR raw data correspond
 
 From here we have two choices :
 
-* Leave the sequence in the dataset and assuming correct read mapping will filter them out
-* Remove the contaminant sequence from out dataset set prior to mapping
+* **Leave the contaminant sequence** in the dataset and assuming correct read mapping will filter them out
+* **Remove the contaminant sequence** from out dataset set prior to mapping
 
 We will hop for the **2nd** choice, as it will provide more acurrate mapping statitics that could help us detect other potential problem in the dataset that prevent a high fraction of mapped reads.
 
  ⚡️ Trim the contaminant Index sequence on both samples with Trimmomatic
+
+* 🪐 Copy the Index sequence from the FASTQ output
+* 🪐 **Trimmomatic** : *flexible read trimming tool for Illumina NGS data*
+* 🪐 Use the correct data type (single/paired end)
+* 🪐 Set the accuracy of the match between adapter to 8.
+* 🪐 Save the log output <div style="text-align:center"><img src="image/chap3/out_trim.png" width="250"/></div>
+
+High accuracy thresholds for short reads will remove adapter dimers but adapter contamination at the 3'end of the reads will remain undetected, this is why we lower the accuracy to 8. A threshold of 8 corresponds to 12 perfect matches between read and adapter, so adapter contamination of 12bp and longer will be detected.
+
+<details>
+  <summary>Tips 👀</summary>
+
+  > The overrepresented Adapter Sequence is an Illumina Index 5 :
+  ```
+>TruSeq Adapter
+GATCGGAAGAGCACACGTCTGAACTCCAGTCACA
+```
+> We can specifically select it as a custom fasta filter :
+<div style="text-align:center"><img src="image/chap3/trim_run.png" width="450"/></div>
+<div style="text-align:center"><img src="image/chap3/trim_param.png" width="450"/></div>
+
+  </details>
+<br>
+
+### 🔸 **4.c Checking trimming**
+
+You can access the trimming statistics in the output log file. Take a look.
+
+❓ How many reads have been discared for each dataset ? How many reads do we have left?
+
+An important question to ask ourself is whehter we have sequenced our sample deep enough. This will depend on two modalities :
+
+* Have we saturated the sequencing library?
+* Do we expect to cover the majority of the genome?
+
+❓ How can we solve these two above questions?
+
+<details>
+  <summary>Tips 👀</summary>
+
+  > Library is saturated when you have sequenced (almost) all the spot in the lane and you mostly increase duplication level.<br>
+
+  > We must compare the number of good quality reads with the genome size of our organism (*e.g.* for the 3 Gb human genome, 10 million reads are considered sufficient). To do so, take a look at *Escherichia coli*'s genome information on NCBI.
+
+  </details>
+<br>
+
+Everything is almost ready, make sure your data now looks all write with a new FASTQC run on trimmed data.
+
+⚡️ Run FASTQC on the Dataset Collection **after** trimming
+
+❓ Is the Adapter sequenced properly filtered out?
+
+🪩 You can merge multiple FASTQC output in a fancy way with **MultiQC**, try it out!
+
+## 📍 **5. Gotta map them all : read alignment**
+
+We need to map.
