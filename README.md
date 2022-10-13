@@ -44,15 +44,15 @@ You can see in this project that multiple experiments were performed (ChIP-on-Ch
 
 🪐 **Get Data** : *Download and Extract Reads in FASTA/Q*
 🪐 Assign a new name to a sample :  edit the **Name** attribute via the ✏️`Edit attributes` link and save.
+<img src="image/chap3/edit_name.png" width="50">
 
 <details>
   <summary>Tips 👀</summary>
 
   The two sample's identifier are `SRR576933` (FNR ChIP) & `SRR576938` (Input).
   Paste the SSR identifier in Galaxy's tool and click `Execute`. The job will start running and turn green once finished.
-
+  <img src="image/chap3/load_data.png" width="75">
   Once finished, edit the name for both and group them as a collection (see above).
-  ![edit_name](image/chap3/edit_name.png | width=50)
 
   </details>
 
