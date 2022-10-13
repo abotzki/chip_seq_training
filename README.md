@@ -28,9 +28,7 @@ To find the correct accession ID in a study, you should look for the following :
 <details>
   <summary>Tips 👀</summary>
 
-  ---
-  You are looking for a code starting with `GSE`. You usually find it in the *Data accessibility* section of an article, else you can try to `Ctrl+F` for `GSE` in the paper.
-  ---
+  > You are looking for a code starting with `GSE`. You usually find it in the *Data accessibility* section of an article, else you can try to `Ctrl+F` for `GSE` in the paper.
 
   </details>
 
