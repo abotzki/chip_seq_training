@@ -18,7 +18,9 @@ We will work on the study from X et al.
 
 <details>
   <summary>Find the SRA accession identifiers</summary>
+
   You are looking for a code starting with `GSE`. You usually find it in the *Data accessibility* section of an article.
+
   </details>
 
 
