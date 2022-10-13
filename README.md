@@ -52,7 +52,7 @@ You can see in this project that multiple experiments were performed (ChIP-on-Ch
   Paste the SSR identifier in Galaxy's tool and click `Execute`. The job will start running and turn green once finished.
 
   Once finished, edit the name for both and group them as a collection (see above).
-  ![edit_name](image/chap3/edit_name.png)
+  ![edit_name](image/chap3/edit_name.png | width=50)
 
   </details>
 
