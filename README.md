@@ -38,14 +38,20 @@ You can see in this project that multiple experiments were performed (ChIP-on-Ch
 
 ❓ Can you guess why we are selecting this pair of dataset?
 
-⚡️ Find the SRA identifier of these two samples and upload them to Galaxy. Assign them a clear name (*e.g.* FNR and Input) and group them into a Dataset Collection.
+⚡️ Find the SRA identifier (starts with `SRR`) of these two samples and upload them to Galaxy. Assign them a clear name (*e.g.* **FNR** and **Input**) and group them into a Dataset Collection.
 
-Working on a Dataset Collection allow to perform the same type of command on both sample in parrallel, this will be helpful for the next steps up to the peak calling.
+❓ Are the sequencing data single-end or paired-end?
+
+> 🪐 **Get Data** - *Download and Extract Reads in FASTA/Q*
+Note the advanced options you can adapt for your download. We will use the default setting.
+To assign a new name to your data, edit the **Name** attribute via the `Edit attributes` link.
+
+Working on a Dataset Collection allow to perform the same type of command on both samples in parrallel in a single go.
 
 <details>
   <summary>Tips 👀</summary>
 
-  Some tips.
+  The two sample's identifier are `SRR576933` (ChIP) & `SRR576938` (Input).
 
   </details>
 
