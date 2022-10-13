@@ -4,15 +4,15 @@ Welcome in this tutorial, you will find here a detailed ChIP-seq workflow, start
 
 This tutorial is using the Galaxy platform to perform the data download, quality control, mapping and peak calling. We will then explore the result via IGV and RSAT.
 
-## 1. A brief note on ChIP-seq
+## 📍 1. A brief note on ChIP-seq
 
 ChIP-seq stands for **Ch**romatin **I**mmuno **P**recipitation followed by **seq**uencing.
 
-## 2. A brief note on Galaxy
+## 📍 2. A brief note on Galaxy
 
 Today, we will work on the Galaxy platform. It's simple, free and open-source.
 
-## 3. Let's start the analysis : downloading the data
+## 📍 3. Let's start the analysis : downloading the data
 
 We will work on the study from X et al.
 [ADD STUDY DETAILS]
@@ -26,14 +26,30 @@ To find the correct accession ID in a study, you should look for the following :
 ⚡️ Your turn : Find the accession identifiers for raw sequencing data from X et al.
 
 <details>
-  <summary>👀 Tips</summary>
+  <summary>Tips 👀</summary>
 
   You are looking for a code starting with `GSE`. You usually find it in the *Data accessibility* section of an article, else you can try to `Ctrl+F` for `GSE` in the paper.
 
   </details>
 
+You can see in this project that multiple experiments were performed (ChIP-on-ChIP, ChIP-seq, RNA-seq). For the sake of time and simplicity, we will focus our tutorial on the following two ChIP-seq samples :
+* ChIP-seq of the FNR protein in anaerobic condition, sample A
+* Input DNA in anaerobic condition
+
+❓ Can you guess why we are selecting this pair of dataset?
+
+⚡️ Find the SRA identifier of these two samples and upload them to Galaxy. Assign them a clear name (*e.g.* FNR and Input) and group them into a Dataset Collection.
+
+Working on a Dataset Collection allow to perform the same type of command on both sample in parrallel, this will be helpful for the next steps up to the peak calling.
+
+<details>
+  <summary>Tips 👀</summary>
+
+  Some tips.
+
+  </details>
 
 
-## 4. Quality Checking
+## 📍 4. Quality Checking
 
 We need to assess the quality of the sequencing reads.
