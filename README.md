@@ -37,30 +37,30 @@ You can see in this project that multiple experiments were performed (ChIP-on-Ch
 * Input DNA in anaerobic condition
 
 ❓ Can you guess why we are selecting this pair of dataset?
-
-⚡️ Find the SRA identifier (starts with `SRR`) of these two samples and upload them to Galaxy. Assign them a clear name (*e.g.* **FNR** and **Input**).
-
 ❓ Are the sequencing data single-end or paired-end?
 
-🪐 **Get Data** : *Download and Extract Reads in FASTA/Q*
-
-🪐 Assign a new name to a sample :  edit the **Name** attribute via the ✏️`Edit attributes` link and save.
-
-<img src="image/chap3/edit_name.png" width="200vw">
+⚡️ Find the SRA identifier (starts with `SRR`) of these two samples and upload them to Galaxy. Assign them a clear name (*e.g.* **FNR** and **Input**).
+* 🪐 **Get Data** : *Download and Extract Reads in FASTA/Q*
+* 🪐 Assign a new name to a sample :  edit the **Name** attribute via the ✏️`Edit attributes` link and save.
+<img src="image/chap3/edit_name.png" width="200">
 
 <details>
   <summary>Tips 👀</summary>
 
-  > The two sample's identifier are `SRR576933` (FNR ChIP) & `SRR576938` (Input).<br>
+  > The two sample's identifier are `SRR576933` (FNR ChIP) & `SRR576938` (Input).
   > Paste the SSR identifier in Galaxy's tool and click `Execute`. The job will start running and turn green once finished.<br>
-  > <img src="image/chap3/load_data.png" width="300vw"><br>
+  > <img src="image/chap3/load_data.png" width="300"><br>
   > Once finished, edit the name for both and group them as a collection (see above).
 
   </details>
 
 We will group both sample into a **Dataset Collection**. Working on a collection allows to perform the same type of command on both samples in parrallel in a single go.
 
-🪐 Make a Data Collection : To group both sample into a Collection, click the Operations on multiple datasets button in the History, You select the two input files, Click For all selected -> Build data set list. Now you can run all tools on the two files in batch using the Dataset collection button
+⚡️ Make a Dataset Collection with both sample
+* 🪐 Click the Operations on multiple datasets button in the History
+You select the two input files
+Click For all selected -> Build data set list
+Now you can run all tools on the two files in batch using the Dataset collection button
 
 
 ## 📍 4. Quality Checking
