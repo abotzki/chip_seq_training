@@ -37,7 +37,7 @@ To find the correct accession ID in a study, you should look for the following :
 * A **BioProject accession**, starting with `PRJ` (*e.g.* `PRJNA176146`), that will link to the complete project archive
 * A **GEO identifier**, starting with `GSE` (*e.g.* `GSE41186`), that will link to a specific experiments, in our case ChIP-seq.
 
-⚡️ Your turn : Find the accession identifiers for raw sequencing data from X et al.
+⚡️ Your turn : Find the accession identifiers for raw sequencing data from Myers *et al.*.
 
 <details>
   <summary>Tips 👀</summary>
@@ -338,6 +338,7 @@ Everything good on the mapping statistics side, let's take a closer look a the *
 
   > The output mapped reads are stored in a **SAM** file format. You can see this in the **Attributes** section of the data. For more detail on this format, check the [GATK help page](https://gatk.broadinstitute.org/hc/en-us/articles/360035890791-SAM-or-BAM-or-CRAM-Mapped-sequence-data-formats) and the image below (credit : D. Caetano-Anolles).
   ><div style="text-align:center"><img src="image/chap5/sam_bam.png" width="500"/></div>
+
   > The SAM files are **Unsorted** (*i.e.* reads are unordered), you can see this is the SAM header.
   ><div style="text-align:center"><img src="image/chap5/sam_header.png" width="500"/></div>
 
@@ -385,3 +386,51 @@ We have our BAM files ready, now let's take a look at the required parameters of
 ❓ What is the effective genome size and why is it needed?
 
 ❓ Should we build a shifting model?
+
+❓ What are duplicate tags and how MACS2 treat them? (*Advanced options*)
+
+❓ How a change in the p-value cutoff impact the result?
+
+<details>
+  <summary>Tips 👀</summary>
+
+  > The **effective genome size**  is the portion of the genome that is mappable. There is no predefined value for E.Coli, we will use the complete genome size of the reference.<br>
+  > The **shifting model** is doable when we have enough reads and enough detected peaks, or ideally paired-end data. This is not the case in our sample. We will not use a model.<br>
+  > **Duplicates** are read the uniquely align to the exact same position that might come from PCR duplicates. We can ignore them with the default parameter `--keep-dup 1`.<br>
+  > The **p-value (or p-adjusted) threshold** set the limit for calling a peak, the lower the threshold, the higher the number of reported peaks. This is a critical parameter to take into account.
+  </details>
+<br>
+
+All onboard, we're ready to launch MACS2 run!
+
+⚡️ Run MACS2 callpeak on FNR ChIP-seq with input as control.
+* 🪐 **MACS2 callpeak** : *Call peaks from alignment results*
+* Set E.Coli effective genome size to 4641652bp
+* Set the MACS2 peak calling to run without model, with a 0 shift and a 200bp extsize
+* Ignore duplicates
+* Save a BedGraph output
+
+❓ What does MACS2 when given `--no-model --shift 0 --extsize 200`?
+
+❓ How many region have been reported, what is the output file format?
+
+<details>
+  <summary>Tips 👀</summary>
+
+  > Select FNR IP as **treatment** and input as **control**
+  ><div style="text-align:center"><img src="image/chap6/macs2_input.png" width="500"/></div>
+  > Do not build a model
+  ><div style="text-align:center"><img src="image/chap6/macs2_model.png" width="500"/></div>
+  > Select an additional BedGraph output
+  ><div style="text-align:center"><img src="image/chap6/macs2_output.png" width="500"/></div><br>
+
+  > The output file is a **BED** file, we report **213** peaks enriched in FNR IP.
+  ><div style="text-align:center"><img src="image/chap6/peak_info.png" width="200"/></div>
+  </details>
+<br>
+
+🪩 Explore the different output files on your own, can you guess what they refer to? Expand the **Tool Standard Output** section in Galaxy output info, do you understand the log message?
+
+🪩 Run another MACS callpeak with a different p-value or with the modelling on, what happens?
+
+## 📍 **7. Enjoying the landscape : Data visualization**
