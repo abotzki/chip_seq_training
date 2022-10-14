@@ -132,7 +132,7 @@ We will hop for the **2nd** choice, as it will provide more acurrate mapping sta
 * 🪐 **Trimmomatic** : *flexible read trimming tool for Illumina NGS data*
 * 🪐 Use the correct data type (single/paired end)
 * 🪐 Set the accuracy of the match between adapter to 8.
-* 🪐 Save the log output <div style="text-align:center"><img src="image/chap3/out_trim.png" width="250"/></div>
+* 🪐 Save the log output <div style="text-align:center"><img src="image/chap4/out_trim.png" width="250"/></div>
 
 High accuracy thresholds for short reads will remove adapter dimers but adapter contamination at the 3'end of the reads will remain undetected, this is why we lower the accuracy to 8. A threshold of 8 corresponds to 12 perfect matches between read and adapter, so adapter contamination of 12bp and longer will be detected.
 
@@ -145,8 +145,8 @@ High accuracy thresholds for short reads will remove adapter dimers but adapter 
 GATCGGAAGAGCACACGTCTGAACTCCAGTCACA
 ```
 > We can specifically select it as a custom fasta filter :
-<div style="text-align:center"><img src="image/chap3/trim_run.png" width="450"/></div>
-<div style="text-align:center"><img src="image/chap3/trim_param.png" width="450"/></div>
+<div style="text-align:center"><img src="image/chap4/trim_run.png" width="450"/></div>
+<div style="text-align:center"><img src="image/chap4/trim_param.png" width="450"/></div>
 
   </details>
 <br>
@@ -174,7 +174,7 @@ An important question to ask ourself is whehter we have sequenced our sample dee
   </details>
 <br>
 
-Everything is almost ready, make sure your data now looks all write with a new FASTQC run on trimmed data.
+Everything is almost ready, make sure your data now looks all right with a new FASTQC run on trimmed data.
 
 ⚡️ Run FASTQC on the Dataset Collection **after** trimming
 
@@ -184,4 +184,6 @@ Everything is almost ready, make sure your data now looks all write with a new F
 
 ## 📍 **5. Gotta map them all : read alignment**
 
-We need to map.
+Mapping is a step where you can explore a very large parameter space. We need to be careful about our selected settings.
+
+### 🔸 **5.a Making a reference genome**
