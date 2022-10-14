@@ -14,6 +14,7 @@ A small guide for this course :
 Usefull links :
   * the [Myers *et al.*](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1003565) article
   * The [NCBI website](https://www.ncbi.nlm.nih.gov/)
+  * The [GATK help page](https://gatk.broadinstitute.org/hc/en-us/articles/360035890791-SAM-or-BAM-or-CRAM-Mapped-sequence-data-formats) on alignment formats
 
 ## 📍 **1. A brief note on ChIP-seq**
 
@@ -59,6 +60,7 @@ You can see in this project that multiple experiments were performed (ChIP-on-Ch
 ❓ Are the sequencing data single-end or paired-end?
 
 ⚡️ Find the SRA identifier (starts with `SRR`) of these two samples and upload them to Galaxy. Assign them a clear name (*e.g.* **FNR** and **Input**).
+
 * 🪐 **Get Data** : *Download and Extract Reads in FASTA/Q*
 * 🪐 Assign a new name to a sample :  edit the **Name** attribute via the ✏️`Edit attributes` link and save. <br><div style="text-align:center"><img src="image/chap3/edit_name.png" width="220"/></div>
 
@@ -304,13 +306,11 @@ Now that we have explored the Bowtie parameter space, let's map our reads to the
 <br>
 
 
-⚡️ After reads have finished mapping, check the mapping statistics and reads output
+⚡️ After reads have finished mapping, check the mapping statistics output.
 
 ❓ How many alignment are reported per sample?
 
 ❓ Does the mapping ratio seem good enough?
-
-❓ What is the alignment file format?
 
 🪩 Check the mapping statistics with **Samtools flagstat** : *tabulate descriptive stats for BAM datset*
 
@@ -319,26 +319,69 @@ Now that we have explored the Bowtie parameter space, let's map our reads to the
 <details>
   <summary>Tips 👀</summary>
 
-  > **-m** discards reads that map to more than *n* reported genome locations <br>
-  > **--un** write the reads that failed to align in a separate file, think about why this would be useful. <br>
+  > Take a look at the *mapping stats* output of Bowtie, scroll down the short read warning down to the global stats.
+  > You should obtain the following result :
+  > * Input sample has **6217172** alignments with **94.67%** mapped reads.
+  > * FNR sample has **2173747** alignments with **89.98%** mapped reads<br>
 
   </details>
 <br>
 
-Input
-```
-# reads processed: 6567526
-# reads with at least one reported alignment: 6217172 (94.67%)
-# reads that failed to align: 14134 (0.22%)
-# reads with alignments suppressed due to -m: 336220 (5.12%)
-Reported 6217172 alignments to 1 output stream(s)
-```
+Everything good on the mapping statistics side, let's take a closer look a the *mapped reads* output now.
 
-FNR
-```
-# reads processed: 2415932
-# reads with at least one reported alignment: 2173747 (89.98%)
-# reads that failed to align: 90730 (3.76%)
-# reads with alignments suppressed due to -m: 151455 (6.27%)
-Reported 2173747 alignments to 1 output stream(s)
-```
+❓ What is the alignment file format?
+
+❓ What is the **SO** (sorting order)?
+
+<details>
+  <summary>Tips 👀</summary>
+
+  > The output mapped reads are stored in a **SAM** file format. You can see this in the **Attributes** section of the data. For more detail on this format, check the [GATK help page](https://gatk.broadinstitute.org/hc/en-us/articles/360035890791-SAM-or-BAM-or-CRAM-Mapped-sequence-data-formats) and the image below (credit : D. Caetano-Anolles).
+  ><div style="text-align:center"><img src="image/chap5/sam_bam.png" width="500"/></div>
+  > The SAM files are **Unsorted** (*i.e.* reads are unordered), you can see this is the SAM header.
+  ><div style="text-align:center"><img src="image/chap5/sam_header.png" width="500"/></div>
+
+  </details>
+<br>
+
+⚡️ Sort the mapping output by genomic coordinates and save it as a compressed BAM output
+
+* 🪐 **Samtools sort** : *order of storing aligned sequences*
+* Use the *coordinate* sorting key
+* Make sure the output is a coordinate-sorted **BAM** file
+
+## 📍 **6. Reaching the summits : Peak calling**
+
+### 🔸 **6.a A brief note on Peak Calling algorithm**
+
+Here we are!
+
+We have our data ready, we can now get to the detection of biological signal by detecting genomic position with enriched ChIP signal.
+
+The most widely used tools for this is the good old **MACS** (**M**odel-based **A**nalysis for **C**hIP-**S**eq) tool. It is used for ChIP-seq as well as for ATAC-seq. It can robustly detect peaks of different profiles (*e.g.* broad or narrow). Current version is MACS2, beta MACS3 is on its way. Check its [GitHub repo](https://github.com/macs3-project/MACS) for more details.
+
+❓ What's behind a peak calling algorithm?
+
+The goal of MACS2 is to **detect region significantly enriched for chromatin immunoprecipitation signal** (our FNR IP) **compared to a given background**. The input sample does exactly that : it gives a measure of the background signal obtain without a targetted IP.
+
+
+### 🔸 **6.b Extracting FNR and Input sample from the Collection**
+
+Now that you know what MACS2 need to do, select the proper input files. We need to specifically assign both samples as **treatment** and **control** files, so we need to extract them separately from the collection.
+
+⚡️ Extract FNR and Input sorted BAM files from the Dataset collection
+* 🪐 **Extract Dataset** *from a list*
+* Select the element identifier (*i.e* the name you assigned)
+* Run once per sample and check the output file attributes
+
+<div style="text-align:center"><img src="image/chap6/extract_collection.png" width="500"/></div>
+
+### 🔸 **6.c Running MACS2 callpeak**
+
+We have our BAM files ready, now let's take a look at the required parameters of MACS2 on the Galaxy platform.
+
+* 🪐 **MACS2 callpeak** : *Call peaks from alignment results*
+
+❓ What is the effective genome size and why is it needed?
+
+❓ Should we build a shifting model?
