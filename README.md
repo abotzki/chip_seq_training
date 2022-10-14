@@ -11,6 +11,10 @@ A small guide for this course :
   * 🪐 : this is a how-to referring to Galaxy
   * 🪩 : feeling on fire? try this out
 
+Usefull links :
+  * the [Myers *et al.*](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1003565) article
+  * The [NCBI website](https://www.ncbi.nlm.nih.gov/)
+
 ## 📍 **1. A brief note on ChIP-seq**
 
 ChIP-seq stands for **Ch**romatin **I**mmuno **P**recipitation followed by **seq**uencing.
@@ -23,7 +27,7 @@ Today, we will work on the Galaxy platform. It's simple, free and open-source.
 
 ### 🔸 **3.a Find the identifier**
 
-We will work on the study from X et al.
+We will work on the study from [Myers *et al.*](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1003565).
 [ADD STUDY DETAILS]
 
 Upon publication of their work, authors should deposit their raw data on a publicly available repositories. You can access and download these archives via two main platforms, the Sequence Read Archive (SRA) from NCBI (US) and the European Nucleotide Archive (ENA) from EBI (EU). Both platforms regularly cross-update each other.
@@ -145,8 +149,8 @@ High accuracy thresholds for short reads will remove adapter dimers but adapter 
 GATCGGAAGAGCACACGTCTGAACTCCAGTCACA
 ```
 > We can specifically select it as a custom fasta filter :
-<div style="text-align:center"><img src="image/chap4/trim_run.png" width="450"/></div>
-<div style="text-align:center"><img src="image/chap4/trim_param.png" width="450"/></div>
+> <div style="text-align:center"><img src="image/chap4/trim_run.png" width="450"/></div>
+> <div style="text-align:center"><img src="image/chap4/trim_param.png" width="450"/></div>
 
   </details>
 <br>
@@ -186,4 +190,155 @@ Everything is almost ready, make sure your data now looks all right with a new F
 
 Mapping is a step where you can explore a very large parameter space. We need to be careful about our selected settings.
 
-### 🔸 **5.a Making a reference genome**
+### 🔸 **5.a Loading a reference genome**
+
+First thing first, what map do we use? We can check that in the article's text.
+
+❓ What is the model organism used?
+
+❓ What is the reference genome of the study?
+
+🪩 Try to fetch its information back from the [NCBI website](https://www.ncbi.nlm.nih.gov/)
+
+<details>
+  <summary>Tips 👀</summary>
+
+  > You can see the sentence *Resulting reads were aligned to the published E. coli K-12 MG1655 genome (U00096.2)* in the Materials and Methods section
+
+  </details>
+<br>
+
+This reference comes from NCBI Nucleotide database, which is not ideal (large amount of errors in sequences and annotations). It is now highly recommended to work with **NCBI Reference Sequence** (RefSeq) data, the curated subset of NCBI’s Nucleotide database. Similar to sample identifier, reference genome also have a unique ID.
+
+⚡️ Find E.Coli RefSeq genome ID and upload it to Galaxy
+* 🪐 **NCBI Accession Download** : *Download sequences from GenBank/RefSeq by accession through the NCBI ENTREZ API*
+* Paste the RefSeq ID as a direct entry, keep output as fasta
+
+<details>
+  <summary>Tips 👀</summary>
+
+  > The RefSeq ID for the E.Coli strain K-12 MG1655 is `NC_000913.3`. You can find it by searching this strain on NCBI's nucleotide database (1), filtering for RefSeq match only (2) and looking at the 1st entry (3).
+  ><div style="text-align:center"><img src="image/chap5/get_refseq.png" width="500"/></div>
+  > You can then paste it to Galaxy genome loader
+  ><div style="text-align:center"><img src="image/chap5/load_refseq.png" width="500"/></div>
+
+  </details>
+<br>
+
+
+### 🔸 **5.b Selecting mapping parameters**
+
+There's plenty of mappers available, you probably have already heard of STAR, Bowtie and BWA for example. We need to select the appropriate one for our data.
+
+We have **short** (36bp) and **single-end** reads, this is best suited for **Bowtie**.
+
+Now the tricly part : understanding and playing with the parameters.
+
+⚡️ Take a look at the Bowtie **-v** and **-n** parameters in Galaxy parameter list.
+* 🪐 **Map with Bowtie for Illumina**
+
+❓ What is the `-v 2` parameter doing?
+
+❓ What are the `-n 2 -l 35` parameters doing?
+
+❓ Make a guess : which of the two options would you pick here?
+
+🪩 Do you see any other parameter that would have been useful to us?
+
+<details>
+  <summary>Tips 👀</summary>
+
+  > The Bowtie **v-mode** performs end-to-end alignment of the read and filter out the ones with more than *n* mismatches. <br>
+  > The Bowtie **n-mode** aligns a seed of *l* basepairs from the high quality 5'end and remove the ones with more than *n* mismatches. <br>
+  > Remember your FASTQC reports, does the **Per base sequence quality** graph hint a something you would want to exclude? <br>
+
+  </details>
+<br>
+
+These two parameters modify the **alignment** strategy, we also need to take care of the **reads reporting** strategy.
+
+⚡️ Take a look at the Bowtie **-m** and **--un** parameters in Galaxy parameter list.
+
+❓ What are the `-m 1` or `-m 3` parameters doing?
+
+❓ What is the `--un` parameter doing?
+
+❓ Make a guess : which parameter set would you pick here?
+
+<details>
+  <summary>Tips 👀</summary>
+
+  > **-m** discards reads that map to more than *n* reported genome locations <br>
+  > **--un** write the reads that failed to align in a separate file, think about why this would be useful. <br>
+
+  </details>
+<br>
+
+### 🔸 **5.c Mapping the reads with Bowtie**
+
+Now that we have explored the Bowtie parameter space, let's map our reads to the E.Coli reference genome.
+
+⚡️ Map both trimmed samples with Bowtie on E.Coli RefSeq genome
+* 🪐 **Map with Bowtie for Illumina**
+* 🪐 Genome index is done before mapping, keep default settings
+* 🪐 Expand Bowtie full parameter list
+* 🪐 Perform a **seed-based** alignment with a seed of **35bp** and a maximum of **2 mismatches**.
+* 🪐 **Discard** all the reads that map to multiple positions
+* 🪐  Save the bowtie mapping statistics to the history
+
+<details>
+  <summary>Tips 👀</summary>
+
+  > Select the tool **Map with Bowtie for Illumina** and fill the parameter form. Select the RefSeq genome as a single file and not a collection.
+  ><div style="text-align:center"><img src="image/chap5/map_reads.png" width="500"/></div>
+  > Expand Bowtie parameter form
+  ><div style="text-align:center"><img src="image/chap5/full_list.png" width="500"/></div>
+  > Select n-mode mapping with a 35bp seed and max 2 mismatches
+  ><div style="text-align:center"><img src="image/chap5/n2_l36.png" width="500"/></div>
+  > Remove multi-mapping reads
+  ><div style="text-align:center"><img src="image/chap5/m1.png" width="500"/></div>
+  > Save the mapping output to Galaxy history
+  ><div style="text-align:center"><img src="image/chap5/save_hist.png" width="300"/></div>
+
+  </details>
+<br>
+
+
+⚡️ After reads have finished mapping, check the mapping statistics and reads output
+
+❓ How many alignment are reported per sample?
+
+❓ Does the mapping ratio seem good enough?
+
+❓ What is the alignment file format?
+
+🪩 Check the mapping statistics with **Samtools flagstat** : *tabulate descriptive stats for BAM datset*
+
+🪩 Run another mapping job with other Bowtie parameters or the untrimmed samples, how does is affect the mapping performances?
+
+<details>
+  <summary>Tips 👀</summary>
+
+  > **-m** discards reads that map to more than *n* reported genome locations <br>
+  > **--un** write the reads that failed to align in a separate file, think about why this would be useful. <br>
+
+  </details>
+<br>
+
+Input
+```
+# reads processed: 6567526
+# reads with at least one reported alignment: 6217172 (94.67%)
+# reads that failed to align: 14134 (0.22%)
+# reads with alignments suppressed due to -m: 336220 (5.12%)
+Reported 6217172 alignments to 1 output stream(s)
+```
+
+FNR
+```
+# reads processed: 2415932
+# reads with at least one reported alignment: 2173747 (89.98%)
+# reads that failed to align: 90730 (3.76%)
+# reads with alignments suppressed due to -m: 151455 (6.27%)
+Reported 2173747 alignments to 1 output stream(s)
+```
