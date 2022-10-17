@@ -8,33 +8,51 @@ A small guide for this course :
   * ⚡️ : time to shine, this is your hands-on objective
   * 👀 : unscroll a help note if you're stuck
   * ❓ : quiz time!
-  * 🪩 : feeling on fire? try this out
+  * 🪩 : feeling on fire? try this optional exercise
   * 🪐 : this is referring to Galaxy
   * 🧬 : this is referring to IGV
   * 🔮 : this is referring to RSAT
 
-Usefull links :
+Useful links :
   * the [Myers *et al.*](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1003565) article
   * The [NCBI website](https://www.ncbi.nlm.nih.gov/)
   * The [GATK help page](https://gatk.broadinstitute.org/hc/en-us/articles/360035890791-SAM-or-BAM-or-CRAM-Mapped-sequence-data-formats) on alignment formats
   * The [UCSC Genome Browser User Guide](https://genome.ucsc.edu/goldenPath/help/hgTracksHelp.html)
   * The [RSAT](http://rsat.france-bioinformatique.fr/teaching/) teaching server
   * The [Uniprot ressource](https://www.uniprot.org/uniprotkb/P0A9E5/entry) for FNR protein
+  * The [csaw book](https://bioconductor.org/books/3.15/csawBook/) for differential peak calling
+  * The [hitchhiker’s guide](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-020-1929-3) to ATAC-seq analysis
+  * The [ENCODE](https://www.encodeproject.org/) database and [ChIP-seq pipeline](https://pubmed.ncbi.nlm.nih.gov/22955991/)
 
 ## 📍 **1. A brief note on ChIP-seq**
 
 ChIP-seq stands for **Ch**romatin **I**mmuno **P**recipitation followed by **seq**uencing.
 
+We can split the analysis as follow :
+
+* **a.** We use antibody to target our DNA-binding protein of interest and fragment the DNA. We then use immunoprecipitation protocol to retrieve the DNA that was binding the targeted Transcription Factor.
+
+* **b** We sequence these fragments using **N**ext **G**eneration **S**equencing
+  * 1. We map the reads to a reference genome
+  * 2. We detect regions/peaks with enriched IP signal
+  * 3. We detect regulatory pattern in the peaks
+
+<div style="text-align:center"><img src="image/chap_intro/chip_seq.png" width="300"/></div>
+
 ## 📍 **2. A brief note on Galaxy**
 
-Today, we will work on the Galaxy platform. It's simple, free and open-source.
+Today, we will work on the Galaxy platform. It's simple, free and open-source. It already has all the tools we need installed with proper versions. It's a robust way to design your analysis pipeline while exploring the different available tools.
+
+<div style="text-align:center"><img src="image/chap_intro/galaxy.png" width="800"/></div>
+
 
 ## 📍 **3. Let's start the analysis : loading the raw data**
 
 ### 🔸 **3.a Find the identifier**
 
 We will work on the study from [Myers *et al.*](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1003565).
-[ADD STUDY DETAILS]
+
+⚡️ Open the article : Find the model organism and the targeted proteins in their ChIP-seq experiments.
 
 Upon publication of their work, authors should deposit their raw data on a publicly available repositories. You can access and download these archives via two main platforms, the Sequence Read Archive (SRA) from NCBI (US) and the European Nucleotide Archive (ENA) from EBI (EU). Both platforms regularly cross-update each other.
 
@@ -67,7 +85,7 @@ You can see in this project that multiple experiments were performed (ChIP-on-Ch
 ⚡️ Find the SRA identifier (starts with `SRR`) of these two samples and upload them to Galaxy. Assign them a clear name (*e.g.* **FNR** and **Input**).
 
 * 🪐 **Get Data** : *Download and Extract Reads in FASTA/Q*
-* 🪐 Assign a new name to a sample :  edit the **Name** attribute via the ✏️`Edit attributes` link and save. <br><div style="text-align:center"><img src="image/chap3/edit_name.png" width="220"/></div>
+* Assign a new name to a sample :  edit the **Name** attribute via the ✏️`Edit attributes` link and save. <br><div style="text-align:center"><img src="image/chap3/edit_name.png" width="220"/></div>
 
 <details>
   <summary>Tips 👀</summary>
@@ -75,7 +93,7 @@ You can see in this project that multiple experiments were performed (ChIP-on-Ch
   > The two sample's identifier are `SRR576933` (FNR ChIP) & `SRR576938` (Input).<br>
   ><div style="text-align:center"><img src="image/chap3/find_srr1.png" width="400"/></div>
   ><div style="text-align:center"><img src="image/chap3/find_srr2.png" width="400"/></div>
-  >🪐 Paste the SSR identifier in Galaxy's tool and click `Execute`. The job will start running and turn green once finished.<br>
+  >Paste the SSR identifier in 🪐 Galaxy's tool and click `Execute`. The job will start running and turn green once finished.<br>
   > <div style="text-align:center"><img src="image/chap3/load_data.png" width="400"/></div>
   > Once finished, edit the name for both and group them as a collection (see below).
 
@@ -111,8 +129,8 @@ FastQC in the most common tool used to get an overview of a fastq file's quality
 ⚡️ Run FASTQC on the Dataset Collection with both samples
 
 * 🪐 **FASTQC** : *Reads Quality Report*
-* 🪐 Select the Dataset Collection as input
-* 🪐 Explore the result with the webpage output (`view data`)
+* Select the Dataset Collection as input
+* Explore the result with the webpage output (`view data`)
 
 ❓ Do you see any problem with the quality of the dataset?
 
@@ -139,11 +157,11 @@ We will hop for the **2nd** choice, as it will provide more acurrate mapping sta
 
  ⚡️ Trim the contaminant Index sequence on both samples with Trimmomatic
 
-* 🪐 Copy the Index sequence from the FASTQ output
+* Copy the Index sequence from the FASTQ output
 * 🪐 **Trimmomatic** : *flexible read trimming tool for Illumina NGS data*
-* 🪐 Use the correct data type (single/paired end)
-* 🪐 Set the accuracy of the match between adapter to 8.
-* 🪐 Save the log output <div style="text-align:center"><img src="image/chap4/out_trim.png" width="250"/></div>
+* Use the correct data type (single/paired end)
+* Set the accuracy of the match between adapter to 8.
+* Save the log output <div style="text-align:center"><img src="image/chap4/out_trim.png" width="250"/></div>
 
 High accuracy thresholds for short reads will remove adapter dimers but adapter contamination at the 3'end of the reads will remain undetected, this is why we lower the accuracy to 8. A threshold of 8 corresponds to 12 perfect matches between read and adapter, so adapter contamination of 12bp and longer will be detected.
 
@@ -287,11 +305,11 @@ Now that we have explored the Bowtie parameter space, let's map our reads to the
 
 ⚡️ Map both trimmed samples with Bowtie on E.Coli RefSeq genome
 * 🪐 **Map with Bowtie for Illumina**
-* 🪐 Genome index is done before mapping, keep default settings
-* 🪐 Expand Bowtie full parameter list
-* 🪐 Perform a **seed-based** alignment with a seed of **35bp** and a maximum of **2 mismatches**.
-* 🪐 **Discard** all the reads that map to multiple positions
-* 🪐  Save the bowtie mapping statistics to the history
+* Genome index is done before mapping, keep default settings
+* Expand Bowtie full parameter list
+* Perform a **seed-based** alignment with a seed of **35bp** and a maximum of **2 mismatches**.
+* **Discard** all the reads that map to multiple positions
+* Save the bowtie mapping statistics to the history
 
 <details>
   <summary>Tips 👀</summary>
@@ -368,8 +386,11 @@ The most widely used tools for this is the good old **MACS** (**M**odel-based **
 
 ❓ What's behind a peak calling algorithm?
 
-The goal of MACS2 is to **detect region significantly enriched for chromatin immunoprecipitation signal** (our FNR IP) **compared to a given background**. The input sample does exactly that : it gives a measure of the background signal obtain without a targetted IP.
+The goal of MACS2 is to **detect region significantly enriched for chromatin immunoprecipitation signal** (our FNR IP) **compared to a given background**. The input sample does exactly that : it gives a measure of the background signal obtain without a targetted IP. In order to pecisely detect the position of the binding protein, MACS2 performs a modelling approach to estimate the initial DNA fragment length that was obtained from IP and **shift/extend** the reads accordingly.
 
+<div style="text-align:center"><img src="image/chap_intro/shift_model.png" width="200"/></div>
+
+The enrichment score is then computed by comparing the enrichment in a **sliding window** between the IP and the Input signal based on a **Poisson** distribution. To avoid bias in background noise, MACS2 compute the Poisson lambda values from the input signal with **severeal windows sizes** (1kb, 10kb, whole genome).
 
 ### 🔸 **6.b Extracting FNR and Input sample from the Collection**
 
@@ -696,11 +717,12 @@ Note that this analysis was performed on **single-end**, **prokaryote**, **FNR I
 
 Hope you enjoyed the ride! Below, you can find some extra ressource for further ChIP-seq and ATAC-seq analysis :
 
-[ADD EXTRA RESSOURCE]
+**Peak annotation** : You can use the R package [ChIPseeker](https://guangchuangyu.github.io/software/ChIPseeker/) to annotate your peaks based on nearest annotated features (*e.g.* gene TSS)
 
-* ChIPseeker
-* ChIP-seq guidelines and practices of the ENCODE and modENCODE consortia
-* IDR threshold
-* csaw
-* ATAC
-* bdgdiff
+**Replicates** : If you have multiple IP for the same protein and you want to integrate them into a common peak calling analysis, you can use the **I**rreproducible **D**iscovery **R**ate ([IDR](https://github.com/nboley/idr)) methodology. For a detailed overview of this method, check [M. Love's example](https://biodatascience.github.io/compbio/test/IDR.html).
+
+**No Input** : If you do not have an input, you can still run MACS2, but keep in mind it is not advised as you will obtain false positive peaks that arise from non-specific enrichment.
+
+**Differential enrichment & ATAC** :  If you are looking for a quantitative analysis of different signal enrichment between conditions, several options exist. You can try the R packages [**DiffBind**](https://bioconductor.org/packages/release/bioc/html/DiffBind.html) and [**csaw**](https://bioconductor.org/packages/release/bioc/html/csaw.html). They are based on DESeq2 and EdgeR models respectively. Good news, although these tools have been initially designed for ChIP-seq, they nicely expand to ATAC-seq analysis! They also both have a very large online documentation.
+
+**In case of doubt** : Old but gold, you can read the [article](https://pubmed.ncbi.nlm.nih.gov/22955991/) on ChIP-seq guidelines and practices of the ENCODE and modENCODE consortia. It's a robust pipeline used for creating the ENCODE database.
