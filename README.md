@@ -18,6 +18,8 @@ Usefull links :
   * The [NCBI website](https://www.ncbi.nlm.nih.gov/)
   * The [GATK help page](https://gatk.broadinstitute.org/hc/en-us/articles/360035890791-SAM-or-BAM-or-CRAM-Mapped-sequence-data-formats) on alignment formats
   * The [UCSC Genome Browser User Guide](https://genome.ucsc.edu/goldenPath/help/hgTracksHelp.html)
+  * The [RSAT](http://rsat.france-bioinformatique.fr/teaching/) teaching server
+  * The [Uniprot ressource](https://www.uniprot.org/uniprotkb/P0A9E5/entry) for FNR protein
 
 ## 📍 **1. A brief note on ChIP-seq**
 
@@ -576,6 +578,8 @@ We're just missing the GFF3 file of gene annotations. We haven't loaded to Galax
 <br>
 
 Ready to go? Let's turn IGV on and load all our files!
+
+⚡️ Get IGV ready to explore
 * 🧬 **Genomes** : *Load Genome from file...*
 * Select the RefSeq fasta sequence
 * 🧬 **File** : *Load from file...*
@@ -586,20 +590,117 @@ Ready to go? Let's turn IGV on and load all our files!
 To be able to compare our FNR IP with input, we need to look at them with the **same y-axis** and comparable **normalisation strategies**! Both tracks are 1x-normalised, so we should just make sure the y-axis range is always the same for the two tracks.
 * 🧬 **Select BigWig tracks** : Right-clik and *Group Autoscale*
 * 🧬 **Select BigWig tracks** : Right-clik and *Show Data Range*
-* Start browsing, zoom in, zoom out, customise your tracks, ...
+* 🧬 **Select BED tracks** : Right-clik and *Expanded*
+* Start browsing, zoom in, zoom out, customise your tracks, ..
 * Go to the following genes : *pepT*, *ycfP*
 
 ❓ What would have happen if we did not took care of group auto-scaling?
 
 ❓ Anything interesting to see ?
 
-🪩 IGV also support BAM file as input, load the FNR sorted BAM from Galaxy to IGV
+🪩 IGV also support BAM file as input, load the FNR sorted BAM from Galaxy to IGV (careful, large file).
 
-🪩 Wanna explore other genes? Sort the MACS2 BED file on Galaxy by p-adjusted values or log2 Fold Change to get the top and bottom quality peaks of our set.
+🪩 Sort the MACS2 BED file on Galaxy by the Score column to get highest and lowest scoring reported peaks. Which one do you trust most?
+
+<details>
+  <summary>Tips 👀</summary>
+
+  > Here is a view of *pepT* location
+  ><div style="text-align:center"><img src="image/chap7/igv_bigwig.png" width="500"/></div>
+
+  > Here is a close-up of the **BAM** track for FNR IP, it automatically computes a global coverage track upon loading. Can you understand what the grey lines and the small colored lines represent?<br>
+  ><div style="text-align:center"><img src="image/chap7/igv_bam.png" width="500"/></div>
+
+  > 🪐 **Sort data** *in ascending or descending order* to find **FNR_peak_64** and **FNR_peak_122** as top and bottom scoring peak respectively<br>
+
+  </details>
+<br>
+
+## 📍 **8. Finding motifs in the sequences**
+
+### 🔸 **8.a A brief note on RSAT and motif discovery**
+
+Now that we have the predicted binding sites of FNR, we can explore further the binding interaction. Based on the **region sequences**, we can look for enriched DNA motif that would have a high affinity with FNR. This motifs are usually call **Transcription Factor Binding Motifs** (**TFBS**) and are defined as a **P**osition **W**eight **M**atrix (**PWM** or **sequence logo**).
+
+Several PWM databases exist, usually focusing on a subset of model organisms (*e.g.* **RegulonDB** for prokaryotes, **TRANSFAC** and **JASPAR** for eukaryotes) and curated for redundancy and motif quality.
+
+The *snail* PWM seen from the **JASPAR** database :
+<div style="text-align:center"><img src="image/chap8/sna_jaspar.png" width="500"/></div>
+
+To find these motifs, we will use the 🔮 **R**egulatory **S**equence **A**nalaysis **T**ool ([**RSAT**](http://rsat.france-bioinformatique.fr/teaching/)). It's an easy-to-use online tool that support a large number of organisms. Other tools exist such as **i-*cis* target**, the **MEME** suite and **HOMER**. Each of them use their own set of discovery algorithms and parameters, feel free to explore them and pick the best-suited one for your own analysis.
 
 
+### 🔸 **8.b Running motif discovery**
 
+Time to look for motifs!
 
-IGV (GFF3, fasta, scaling, ...)
+If you follow the small questionnaire on the welcome page on which tool to use, you will see that **peak-motif** is our way to go. Yet, this tool needs the fasta sequence of our MACS2 peaks.
 
- Going further : QC = Lorenz ; Annot= ChIPseeker
+⚡️ Use Galaxy to export our MASC2 peak set as **fasta**
+* 🪐 **bedtools GetFastaBed** : *use intervals to extract sequences from a FASTA file*
+* Use MASC2 narrowpeak output as input
+* Download the resulting fasta locally
+
+<details>
+  <summary>Tips 👀</summary>
+
+  ><div style="text-align:center"><img src="image/chap8/get_fasta.png" width="500"/></div>
+
+  </details>
+<br>
+
+All set for peak-motif!
+
+⚡️ Use RSAT Prokaryotes server to find enriched motifs in our peak set
+* 🔮 **peak-motif**
+* Find a relevan title and select your fasta file as *Peak sequences*
+* Do **not cut** the peak sequence
+* Look **6bp and 7bp oligomer** search, as well as **dyad** analysis
+* Compare your resulting enriched motifs with prokaryote database
+
+<details>
+  <summary>Tips 👀</summary>
+
+  ><div style="text-align:center"><img src="image/chap8/rsat_input.png" width="500"/></div>
+  > To avoid cutting peaks, set the cutting length to 0. Tick the *Spaced word pairs* analysis.
+  ><div style="text-align:center"><img src="image/chap8/rsat_search.png" width="500"/></div>
+  > The prokaryote database is RegulonDB, select the 2015 collection.
+  ><div style="text-align:center"><img src="image/chap8/rsat_db.png" width="500"/></div>
+
+  </details>
+<br>
+
+❓ Do you understand all the resut panels?
+
+❓ Do you see evidence of FNR binding?
+
+❓ What would have happened if we did not select dyad analysis?
+
+### 🔸 **8.c Going further**
+
+Congrats, you made it to the final section!
+
+Through this tutorial you have seen the following :
+* **Finding** a study of interest and **extracting** raw NGS data
+* **Quality-filtering** and **mapping** the reads to a reference genome
+* **Calling peaks** with significant IP enrichment with MACS2
+* **Exporting** data as explorable BigWig and BED tracks
+* **Visualizing** our result with DeepTools, at region and genome scale
+* **Finding motifs** of enriched TFBS in our peak set using RSAT
+
+Note that this analysis was performed on **single-end**, **prokaryote**, **FNR IP** data. If you want to apply this workflow to other data types :
+* Do not extend reads manually for **paired-end** data, they will automatically join the mates
+* Do not use RegulonDB for **eukaryote** data, also change the RefSeq genome accordingly (and make sure you adapt parameters linked to genome size too)
+* Explore MACS2 options for broad peak calling if you use **ChIP-histone**
+* In general, always scan the parameter options again to make sure your data match your analysis.
+
+Hope you enjoyed the ride! Below, you can find some extra ressource for further ChIP-seq and ATAC-seq analysis :
+
+[ADD EXTRA RESSOURCE]
+
+* ChIPseeker
+* ChIP-seq guidelines and practices of the ENCODE and modENCODE consortia
+* IDR threshold
+* csaw
+* ATAC
+* bdgdiff
