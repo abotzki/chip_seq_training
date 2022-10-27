@@ -699,7 +699,7 @@ All set for peak-motif!
 
 ### 🔸 **8.c Going further**
 
-Congrats, you made it to the final section!
+🏁 Congrats, you made it to the final section!
 
 Through this tutorial you have seen the following :
 * **Finding** a study of interest and **extracting** raw NGS data
@@ -709,11 +709,22 @@ Through this tutorial you have seen the following :
 * **Visualizing** our result with DeepTools, at region and genome scale
 * **Finding motifs** of enriched TFBS in our peak set using RSAT
 
-Note that this analysis was performed on **single-end**, **prokaryote**, **FNR IP** data. If you want to apply this workflow to other data types :
-* Do not extend reads manually for **paired-end** data, they will automatically join the mates
-* Do not use RegulonDB for **eukaryote** data, also change the RefSeq genome accordingly (and make sure you adapt parameters linked to genome size too)
-* Explore MACS2 options for broad peak calling if you use **ChIP-histone**
-* In general, always scan the parameter options again to make sure your data match your analysis.
+🚨 Note that this analysis was performed on **single-end**, **prokaryote**, **FNR IP** data. If you want to apply this workflow to other data types, you should consider some additional tunings.
+
+🔹 **ATAC-seq** : ATAC-seq also target chromatin, but contrary to ChIP, it does not use targetted antibody. As a result, it is not particularly advised to run MACS for ATAC peak *with* the model option (instead, use *--no-model*). Otherwise, you can also perfrom the same analysis as ChIP-seq (DeepTools, motif enrichment)
+
+🔹 **mapping** : As always, make sure you use the correct reference genome. Here we used Bowtie as we are dealing with short single-end sequence. For longer (~150/200bp) paired-end reads, you can use other better-suited mapper such as **BWA-MEM** (used in CellRangerATAC). If you decide to use the famous **STAR** mapper, don't forget it's originally designed for RNA-seq data and you should enforce the *--alignIntronMax 1 --alignEndsType EndToEnd* options to forbid spliced alignment.
+
+🔹 **paired-end data** : These reads do not need to be manually extended, peak-calling algorithm will simply join the respective mates. To do so, specify this information in MACS with *-f BAMPE*.
+
+🔹 **motif database** : Do not use RegulonDB for **eukaryote** data, also change the RefSeq genome accordingly (and make sure you adapt parameters linked to genome size too)
+
+🔹 **TF/Histone peaks** : Accessibility peaks can have various shape of peaks (e.g. H3K27ac vs CTCF). To take this into account, you can explore MACS2 options for broad peak calling.
+
+🔹 **In general, always scan the parameter options again to make sure your data match your analysis.**
+
+
+
 
 Hope you enjoyed the ride! Below, you can find some extra ressource for further ChIP-seq and ATAC-seq analysis :
 
