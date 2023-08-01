@@ -27,25 +27,25 @@ This tutorial is using the Galaxy platform to perform the data download, quality
 
 A small guide for this course :
 
-  * ⚡️ : time to shine, this is your hands-on objective
-  * 👀 : unscroll a help note if you're stuck
-  * ❓ : quiz time!
-  * 🪩 : feeling on fire? try this optional exercise
-  * 🪐 : this is referring to Galaxy
-  * 🧬 : this is referring to IGV
-  * 🔮 : this is referring to RSAT
+* ⚡️ : time to shine, this is your hands-on objective
+* 👀 : unscroll a help note if you're stuck
+* ❓ : quiz time!
+* 🪩 : feeling on fire? try this optional exercise
+* 🪐 : this is referring to Galaxy
+* 🧬 : this is referring to IGV
+* 🔮 : this is referring to RSAT
 
 Useful links :
 
-  * the [Myers *et al.*](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1003565) article
-  * The [NCBI website](https://www.ncbi.nlm.nih.gov/)
-  * The [GATK help page](https://gatk.broadinstitute.org/hc/en-us/articles/360035890791-SAM-or-BAM-or-CRAM-Mapped-sequence-data-formats) on alignment formats
-  * The [UCSC Genome Browser User Guide](https://genome.ucsc.edu/goldenPath/help/hgTracksHelp.html)
-  * The [RSAT](http://rsat.france-bioinformatique.fr/teaching/) teaching server
-  * The [Uniprot ressource](https://www.uniprot.org/uniprotkb/P0A9E5/entry) for FNR protein
-  * The [csaw book](https://bioconductor.org/books/3.15/csawBook/) for differential peak calling
-  * The [hitchhiker’s guide](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-020-1929-3) to ATAC-seq analysis
-  * The [ENCODE](https://www.encodeproject.org/) database and [ChIP-seq pipeline](https://pubmed.ncbi.nlm.nih.gov/22955991/)
+* the [Myers *et al.*](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1003565) article
+* The [NCBI website](https://www.ncbi.nlm.nih.gov/)
+* The [GATK help page](https://gatk.broadinstitute.org/hc/en-us/articles/360035890791-SAM-or-BAM-or-CRAM-Mapped-sequence-data-formats) on alignment formats
+* The [UCSC Genome Browser User Guide](https://genome.ucsc.edu/goldenPath/help/hgTracksHelp.html)
+* The [RSAT](http://rsat.france-bioinformatique.fr/teaching/) teaching server
+* The [Uniprot ressource](https://www.uniprot.org/uniprotkb/P0A9E5/entry) for FNR protein
+* The [csaw book](https://bioconductor.org/books/3.15/csawBook/) for differential peak calling
+* The [hitchhiker’s guide](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-020-1929-3) to ATAC-seq analysis
+* The [ENCODE](https://www.encodeproject.org/) database and [ChIP-seq pipeline](https://pubmed.ncbi.nlm.nih.gov/22955991/)
 
 ## 📍 **1. A brief note on ChIP-seq**
 
