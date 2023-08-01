@@ -1,3 +1,24 @@
+<!--
+author:   Swann Flochlay
+
+email:    alexander.botzki@vib.be
+
+version:  0.1
+
+language: en
+
+icon: elixir-tess-b37789ea9aced77e795a3c2dc3a2fa583d9dc0e0eb392d589a8cd8d534be8067.svg
+
+narrator: US English Female
+
+comment:  the course is based on the publication.
+
+link:     https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css
+
+script:   https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js
+
+-->
+
 # **Introduction to ChIP-seq analysis**
 
 Welcome in this tutorial, you will find here a detailed ChIP-seq workflow, starting from sequencing read to the final coverage tracks and differentially accessible genomic regions.
