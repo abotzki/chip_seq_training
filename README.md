@@ -26,6 +26,7 @@ Welcome in this tutorial, you will find here a detailed ChIP-seq workflow, start
 This tutorial is using the Galaxy platform to perform the data download, quality control, mapping and peak calling. We will then explore the result via IGV and RSAT.
 
 A small guide for this course :
+
   * ⚡️ : time to shine, this is your hands-on objective
   * 👀 : unscroll a help note if you're stuck
   * ❓ : quiz time!
@@ -35,6 +36,7 @@ A small guide for this course :
   * 🔮 : this is referring to RSAT
 
 Useful links :
+
   * the [Myers *et al.*](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1003565) article
   * The [NCBI website](https://www.ncbi.nlm.nih.gov/)
   * The [GATK help page](https://gatk.broadinstitute.org/hc/en-us/articles/360035890791-SAM-or-BAM-or-CRAM-Mapped-sequence-data-formats) on alignment formats
