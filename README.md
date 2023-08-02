@@ -1,5 +1,5 @@
 <!--
-author:   Swann Flochlay
+author:   Swann Floc'hlay
 
 email:    alexander.botzki@vib.be
 
@@ -762,6 +762,7 @@ All set for peak-motif!
 🏁 Congrats, you made it to the final section!
 
 Through this tutorial you have seen the following :
+
 * **Finding** a study of interest and **extracting** raw NGS data
 * **Quality-filtering** and **mapping** the reads to a reference genome
 * **Calling peaks** with significant IP enrichment with MACS2
