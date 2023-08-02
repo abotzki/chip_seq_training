@@ -7,7 +7,7 @@ version:  0.1
 
 language: en
 
-icon: img/elixir-tess-b37789ea9aced77e795a3c2dc3a2fa583d9dc0e0eb392d589a8cd8d534be8067.svg
+icon: image/elixir-tess-b37789ea9aced77e795a3c2dc3a2fa583d9dc0e0eb392d589a8cd8d534be8067.svg
 
 narrator: US English Female
 
