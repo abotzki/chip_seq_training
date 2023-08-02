@@ -50,13 +50,13 @@ The goal of VIB Technology Training is to up-skill life scientists to excel in t
 
 *Editorial team for this course*
 
-Authors: @[orcid(Bruna Piereck)](https://orcid.org/0000-0001-5958-0669)
+Authors: @[orcid(Swann Floc'hlay)](https://orcid.org/0000-0003-1477-830X)
 
 Contributors: @[orcid(Alexander Botzki)](https://orcid.org/0000-0001-6691-4233)
 
 Technical Editors: Alexander Botzki
 
-License: [![CC BY](img/picture003.jpg)](https://spdx.org/licenses/GPL-3.0-only.html)
+License: [![GPL-3.0](img/picture003.jpg)](https://spdx.org/licenses/GPL-3.0-only.html)
 
 -------------------------------------------
 
