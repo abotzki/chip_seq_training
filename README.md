@@ -7,7 +7,7 @@ version:  0.1
 
 language: en
 
-icon: elixir-tess-b37789ea9aced77e795a3c2dc3a2fa583d9dc0e0eb392d589a8cd8d534be8067.svg
+icon: img/elixir-tess-b37789ea9aced77e795a3c2dc3a2fa583d9dc0e0eb392d589a8cd8d534be8067.svg
 
 narrator: US English Female
 
@@ -17,11 +17,48 @@ link:     https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css
 
 script:   https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js
 
+@orcid: [@0](@1)<!--class="orcid-logo-for-author-list"-->
+
 -->
 
 # **Introduction to ChIP-seq analysis**
 
 Welcome in this tutorial, you will find here a detailed ChIP-seq workflow, starting from sequencing read to the final coverage tracks and differentially accessible genomic regions.
+
+> We are using the interactive Open Educational Resource online/offline course infrastructure called LiaScript. 
+> It is a distributed way of creating and sharing educational content hosted on github.
+> To see this document as an interactive LiaScript rendered version, click on the
+> following link/badge:
+>
+> [![LiaScript](https://raw.githubusercontent.com/LiaScript/LiaScript/master/badges/course.svg)](https://liascript.github.io/course/?https://raw.githubusercontent.com/abotzki/chip_seq_training/main/README.md)
+
+--------------------------------------------
+
+*About ELIXIR Training Platform*
+
+The ELIXIR Training Platform was established to develop a training community that spans all ELIXIR member states (see the list of Training Coordinators). It aims to strengthen national training programmes, grow bioinformatics training capacity and competence across Europe, and empower researchers to use ELIXIR's services and tools. 
+
+*About VIB and VIB Technologies*
+
+VIB is an entrepreneurial non-profit research institute, with a clear focus on groundbreaking strategic basic research in life sciences and operates in close partnership with the five universities in Flanders – Ghent University, KU Leuven, University of Antwerp, Vrije Universiteit Brussel and Hasselt University.
+
+As part of the VIB Technologies, the 12 VIB Core Facilities, provide support in a wide array of research fields and housing specialized scientific equipment for each discipline. Science and technology go hand in hand. New technologies advance science and often accelerate breakthroughs in scientific research. VIB has a visionary approach to science and technology, founded on its ability to identify and foster new innovations in life sciences.
+
+The goal of VIB Technology Training is to up-skill life scientists to excel in the domains of VIB Technologies, Bioinformatics & AI, Software Development, and Research Data Management.
+
+--------------------------------------------
+
+*Editorial team for this course*
+
+Authors: @[orcid(Bruna Piereck)](https://orcid.org/0000-0001-5958-0669)
+
+Contributors: @[orcid(Alexander Botzki)](https://orcid.org/0000-0001-6691-4233)
+
+Technical Editors: Alexander Botzki
+
+License: [![CC BY](img/picture003.jpg)](https://spdx.org/licenses/GPL-3.0-only.html)
+
+-------------------------------------------
 
 This tutorial is using the Galaxy platform to perform the data download, quality control, mapping and peak calling. We will then explore the result via IGV and RSAT.
 
